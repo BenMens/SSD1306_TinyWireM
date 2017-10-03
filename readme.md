@@ -8,5 +8,5 @@ TinyWireM.
 # Notes
 
  - This library is tested with:
-   - (adafruit/TinyWireM)[https://github.com/adafruit/TinyWireM]
+   - [adafruit/TinyWireM](https://github.com/adafruit/TinyWireM)
    - a Attiny85
