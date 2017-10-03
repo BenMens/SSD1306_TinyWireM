@@ -43,7 +43,6 @@ void SSD1306::fill (uint8_t pattern)
 
   int8_t index = 0;
   for (uint16_t i=0; i<(SSD1306_LCDWIDTH*SSD1306_LCDHEIGHT/8); i++) {
-    // send a bunch of data in one xmission
     TinyWireM.beginTransmission(_address);
     TinyWireM.write(0x40);
     for (uint8_t x=0; x<16; x++) {
@@ -84,7 +83,6 @@ void SSD1306::drawChar (char c)
   TinyWireM.write(0x40);
   int16_t index = (c - ' ') * 6;
   for (uint16_t i=0; i<6; i++) {
-    // send a bunch of data in one xmission
     //TinyWireM.write(pgm_read_byte(&ssd1306xled_font6x8[index]));
     TinyWireM.write(pgm_read_byte(&ssd1306xled_font6x8[index++]));
   }
