@@ -17,3 +17,4 @@ This library is far from finished. Don't expect to much of it for now.
 
  - This library is tested with:
    - [adafruit/TinyWireM](https://github.com/adafruit/TinyWireM)
+ - [Documentation page](https://benmens.github.io/SSD1306_TinyWireM/)
