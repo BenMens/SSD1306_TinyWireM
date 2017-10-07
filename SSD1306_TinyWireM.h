@@ -53,9 +53,9 @@ class SSD1306
     int8_t _address;
     int8_t _x,_y;
 
-    void writeCommand(uint8_t command);
-    void writeCommand(uint8_t command,uint8_t arg1);
-    void writeCommand(uint8_t command,uint8_t arg1,uint8_t arg2);
+    uint8_t writeCommand(uint8_t command);
+    uint8_t writeCommand(uint8_t command,uint8_t arg1);
+    uint8_t writeCommand(uint8_t command,uint8_t arg1,uint8_t arg2);
 };
 
 #endif

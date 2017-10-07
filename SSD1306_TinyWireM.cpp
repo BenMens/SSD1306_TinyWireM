@@ -39,8 +39,6 @@ void SSD1306::fill (uint8_t pattern)
   _y=0;
   setPos(_x,_y);
 
-  digitalWrite(PB3,HIGH);
-
   int8_t index = 0;
   for (uint16_t i=0; i<(SSD1306_LCDWIDTH*SSD1306_LCDHEIGHT/8); i++) {
     TinyWireM.beginTransmission(_address);
@@ -52,8 +50,6 @@ void SSD1306::fill (uint8_t pattern)
     TinyWireM.endTransmission(1);
     i--;
   }
-
-  digitalWrite(PB3,LOW);
 
   setPos(_x,_y);
 }
@@ -77,8 +73,6 @@ void SSD1306::drawChar (char c)
 {
   setPos(_x,_y);
 
-  digitalWrite(PB3,HIGH);
-
   TinyWireM.beginTransmission(_address);
   TinyWireM.write(0x40);
   int16_t index = (c - ' ') * 6;
@@ -94,53 +88,30 @@ void SSD1306::drawChar (char c)
     _x=0;
     _y=(_y+1)%8;
   }
-
-  digitalWrite(PB3,LOW);
 }
 
 
 
-void SSD1306::writeCommand(uint8_t command) {
-  uint8_t result;
-
-  digitalWrite(PB3,HIGH);
+uint8_t SSD1306::writeCommand(uint8_t command) {
   TinyWireM.beginTransmission(_address);
   TinyWireM.write(0x00);
   TinyWireM.write(command);
-  result=TinyWireM.endTransmission(1);
-
-  if (result==0) {
-    digitalWrite(PB3,LOW);
-  }
+  return TinyWireM.endTransmission(1);
 }
 
-void SSD1306::writeCommand(uint8_t command,uint8_t arg1) {
-  uint8_t result;
-
-  digitalWrite(PB3,HIGH);
+uint8_t SSD1306::writeCommand(uint8_t command,uint8_t arg1) {
   TinyWireM.beginTransmission(_address);
   TinyWireM.write(0x00);
   TinyWireM.write(command);
   TinyWireM.write(arg1);
-  result=TinyWireM.endTransmission(1);
-
-  if (result==0) {
-    digitalWrite(PB3,LOW);
-  }
+  return TinyWireM.endTransmission(1);
 }
 
-void SSD1306::writeCommand(uint8_t command,uint8_t arg1,uint8_t arg2) {
-  uint8_t result;
-
-  digitalWrite(PB3,HIGH);
+uint8_t SSD1306::writeCommand(uint8_t command,uint8_t arg1,uint8_t arg2) {
   TinyWireM.beginTransmission(_address);
   TinyWireM.write(0x00);
   TinyWireM.write(command);
   TinyWireM.write(arg1);
   TinyWireM.write(arg2);
-  result=TinyWireM.endTransmission(1);
-
-  if (result==0) {
-    digitalWrite(PB3,LOW);
-  }
+  return TinyWireM.endTransmission(1);
 }
