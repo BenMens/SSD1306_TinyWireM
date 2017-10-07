@@ -1,7 +1,5 @@
 #include <TinyWireM.h>
-#include <USI_TWI_Master.h>
-
-#include "SSD1306_TinyWireM.h"
+#include <SSD1306_TinyWireM.h>
 
 SSD1306 display(0x3c);
 
