@@ -39,6 +39,8 @@
 #define SSD1306_VERTICAL_AND_RIGHT_HORIZONTAL_SCROLL 0x29
 #define SSD1306_VERTICAL_AND_LEFT_HORIZONTAL_SCROLL 0x2A
 
+typedef uint8_t DisplayBuffer[128*64/8];
+
 class SSD1306
 {
   public:
@@ -48,6 +50,7 @@ class SSD1306
     void drawChar(char c);
     void setPos(uint8_t x,uint8_t y);
     void fill(uint8_t pattern);
+    void SSD1306::drawbuf(DisplayBuffer *buf);
 
   private:
     int8_t _address;

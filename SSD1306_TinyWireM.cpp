@@ -1,4 +1,11 @@
-#include <TinyWireM.h>
+#if defined (__AVR_ATtiny85__)
+#include <Wire.h>
+#define Wire TinyWireM
+#endif
+
+#if defined(__AVR_ATmega328P__)
+#include <Wire.h>
+#endif
 
 #include "SSD1306_TinyWireM.h"
 #include "font6x8.h"
@@ -41,13 +48,13 @@ void SSD1306::fill (uint8_t pattern)
 
   int8_t index = 0;
   for (uint16_t i=0; i<(SSD1306_LCDWIDTH*SSD1306_LCDHEIGHT/8); i++) {
-    TinyWireM.beginTransmission(_address);
-    TinyWireM.write(0x40);
+    Wire.beginTransmission(_address);
+    Wire.write(0x40);
     for (uint8_t x=0; x<16; x++) {
-      TinyWireM.write(pattern);
+      Wire.write(pattern);
       i++;
     }
-    TinyWireM.endTransmission(1);
+    Wire.endTransmission(1);
     i--;
   }
 
@@ -73,15 +80,14 @@ void SSD1306::drawChar (char c)
 {
   setPos(_x,_y);
 
-  TinyWireM.beginTransmission(_address);
-  TinyWireM.write(0x40);
+  Wire.beginTransmission(_address);
+  Wire.write(0x40);
   int16_t index = (c - ' ') * 6;
   for (uint16_t i=0; i<6; i++) {
-    //TinyWireM.write(pgm_read_byte(&ssd1306xled_font6x8[index]));
-    TinyWireM.write(pgm_read_byte(&ssd1306xled_font6x8[index++]));
+    Wire.write(pgm_read_byte(&ssd1306xled_font6x8[index++]));
   }
 
-  TinyWireM.endTransmission(1);
+  Wire.endTransmission(1);
 
   _x+=6;
   if (_x>128-12) {
@@ -91,27 +97,46 @@ void SSD1306::drawChar (char c)
 }
 
 
+void SSD1306::drawbuf(DisplayBuffer *buf)
+{
+  setPos(0,0);
+  uint8_t *b = &(*buf[0]);
+
+  Wire.beginTransmission(_address);
+
+  for (uint8_t i=0; i<64; i++) {
+    Wire.beginTransmission(_address);
+    Wire.write(0x40);
+    for (uint8_t j=0; j<16; j++) {
+      Wire.write(*b++);
+    }
+    Wire.endTransmission(1);
+  }
+
+
+}
+
 
 uint8_t SSD1306::writeCommand(uint8_t command) {
-  TinyWireM.beginTransmission(_address);
-  TinyWireM.write(0x00);
-  TinyWireM.write(command);
-  return TinyWireM.endTransmission(1);
+  Wire.beginTransmission(_address);
+  Wire.write(0x00);
+  Wire.write(command);
+  return Wire.endTransmission(1);
 }
 
 uint8_t SSD1306::writeCommand(uint8_t command,uint8_t arg1) {
-  TinyWireM.beginTransmission(_address);
-  TinyWireM.write(0x00);
-  TinyWireM.write(command);
-  TinyWireM.write(arg1);
-  return TinyWireM.endTransmission(1);
+  Wire.beginTransmission(_address);
+  Wire.write(0x00);
+  Wire.write(command);
+  Wire.write(arg1);
+  return Wire.endTransmission(1);
 }
 
 uint8_t SSD1306::writeCommand(uint8_t command,uint8_t arg1,uint8_t arg2) {
-  TinyWireM.beginTransmission(_address);
-  TinyWireM.write(0x00);
-  TinyWireM.write(command);
-  TinyWireM.write(arg1);
-  TinyWireM.write(arg2);
-  return TinyWireM.endTransmission(1);
+  Wire.beginTransmission(_address);
+  Wire.write(0x00);
+  Wire.write(command);
+  Wire.write(arg1);
+  Wire.write(arg2);
+  return Wire.endTransmission(1);
 }
